@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação — Garantias Rádio Popular</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: #f0f4ff;
+  color: #1d1d1f;
+  line-height: 1.5;
+}
+
+.top-bar {
+  background: #1565C0;
+  padding: 14px 16px 10px;
+  color: #fff;
+}
+.top-bar h1 { font-size: 18px; font-weight: 700; }
+.top-bar p { font-size: 12px; opacity: .75; margin-top: 2px; }
+
+.top-nav {
+  background: #0d47a1;
+  padding: 8px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+.top-nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  display: inline-block;
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,.65);
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  margin-right: 5px;
+  touch-action: manipulation;
+}
+.nav-btn.active { background: #fff; color: #1565C0; border-color: #fff; font-weight: 700; }
+
+.cat-panel { display: none; }
+.cat-panel.active { display: block; }
+
+.page-title { padding: 18px 16px 0; }
+.page-title .meta { font-size: 11px; color: #1565C0; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
+.page-title h2 { font-size: clamp(20px, 5vw, 26px); font-weight: 700; }
+
+/* TABS */
+.tab-btn-row {
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e0e7ff;
+  margin-top: 14px;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  gap: 6px;
+  scrollbar-width: none;
+}
+.tab-btn-row::-webkit-scrollbar { display: none; }
+.tab-btn {
+  display: inline-block;
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  background: none;
+  border: 1px solid #c0c0c5;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.tab-btn.active { background: #1565C0; color: #fff; border-color: #1565C0; }
+
+.tab-panels { padding: 16px 16px 60px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* QUICK REFERENCE TABLE */
+.qref-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #c7d8f8;
+  background: #fff;
+  margin-bottom: 20px;
+}
+.qref-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+.qref-table th { background: #1565C0; color: #fff; padding: 10px 14px; font-size: 12px; font-weight: 600; text-align: left; }
+.qref-table td { padding: 9px 14px; font-size: 13px; border-top: 1px solid #eef2ff; vertical-align: top; }
+.qref-table tr:hover td { background: #f5f8ff; }
+.ref-code { display: inline-block; background: #e8f0fe; color: #1565C0; border-radius: 4px; padding: 1px 6px; font-size: 11px; font-weight: 700; margin-right: 4px; }
+.tipo-unico { background: #fff3e0; color: #e65100; border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.tipo-mensal { background: #e8f5e9; color: #1b5e20; border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.price-cell { font-weight: 700; color: #1565C0; white-space: nowrap; }
+
+/* PRODUCT CARDS */
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+@media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } }
+
+.prod-card { background: #fff; border-radius: 14px; overflow: hidden; border: 1.5px solid #c7d8f8; }
+.prod-card.full-width { max-width: 640px; }
+.card-head { padding: 16px 18px 12px; background: #1565C0; color: #fff; }
+.card-head.accent { background: #0d47a1; }
+.card-ref { font-size: 10.5px; opacity: .75; margin-bottom: 4px; }
+.card-name { font-size: 17px; font-weight: 700; line-height: 1.25; }
+.card-price { font-size: 28px; font-weight: 800; margin: 8px 0 2px; letter-spacing: -.5px; }
+.card-price span { font-size: 14px; font-weight: 400; opacity: .85; }
+.card-desc { font-size: 12px; opacity: .85; }
+
+.cov-row { display: flex; align-items: flex-start; gap: 9px; padding: 8px 18px; font-size: 13px; border-top: 1px solid #eef2ff; line-height: 1.4; }
+.cov-icon { flex-shrink: 0; width: 18px; text-align: center; margin-top: 1px; }
+.cov-note { font-size: 11.5px; color: #888; margin-top: 2px; display: block; }
+.plus { color: #1b5e20; }
+.minus { color: #b71c1c; }
+.warn { color: #e65100; }
+.muted { color: #888; }
+
+.cov-row.highlight { background: #f0f7ff; }
+.section-label { padding: 7px 18px 3px; font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #1565C0; background: #e8f0fe; border-top: 1px solid #c7d8f8; }
+.section-label.excl { color: #b71c1c; background: #fff5f5; border-top-color: #ffd7d7; }
+
+/* DECISION BOX */
+.decision-box { background: #fff; border-radius: 12px; border: 1.5px solid #a5c8f8; padding: 14px 16px; margin-bottom: 18px; }
+.decision-box h4 { font-size: 13px; font-weight: 700; color: #1565C0; margin-bottom: 10px; }
+.decision-row { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-top: 1px solid #eef2ff; font-size: 12.5px; }
+.decision-row:first-of-type { border-top: none; }
+.decision-q { font-weight: 600; min-width: 120px; flex-shrink: 0; color: #333; }
+.decision-a { color: #1565C0; font-weight: 600; }
+
+/* NOTE */
+.note-box { background: #fff8e7; border: 1px solid #f5c542; border-radius: 10px; padding: 11px 14px; font-size: 12.5px; color: #7a5c00; margin-bottom: 14px; line-height: 1.5; }
+.note-box.info { background: #e8f0fe; border-color: #a5c8f8; color: #1565C0; }
+.note-box.alert { background: #fff5f5; border-color: #ffd7d7; color: #c62828; }
+
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #1565C0; margin: 20px 0 8px; }
+
+@media (min-width: 800px) {
+  .tab-panels { padding: 20px 32px 60px; }
+  .page-title { padding: 24px 32px 0; }
+  .tab-btn-row { padding: 10px 32px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>Garantias Rádio Popular</h1>
+  <p>Guia de formação para novos colaboradores · D&amp;G · LPS PT 5002</p>
+</div>
+
+<nav class="top-nav">
+  <button class="nav-btn active" data-cat="imagem">📺 Imagem e Som</button>
+  <button class="nav-btn" data-cat="gama-branca">🧊 Gama Branca</button>
+  <button class="nav-btn" data-cat="pequenos">🏠 Peq. Domésticos</button>
+  <button class="nav-btn" data-cat="informatica">💻 Informática</button>
+  <button class="nav-btn" data-cat="smartphones">📱 Smartphones</button>
+  <button class="nav-btn" data-cat="fotografia">📷 Fotografia</button>
+  <button class="nav-btn" data-cat="consolas">🎮 Consolas</button>
+  <button class="nav-btn" data-cat="smartwatch">⌚ Smartwatch</button>
+  <button class="nav-btn" data-cat="trotineta">🛴 Trotinetes</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     IMAGEM E SOM
+══════════════════════════════════════════════ -->
+<div id="cat-imagem" class="cat-panel active">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>📺 Imagem e Som</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="imagem" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="imagem" data-tab="avarias">Avarias (+1/+3 Anos)</button>
+    <button class="nav-tab tab-btn" data-cat="imagem" data-tab="exclusivos">Produtos Exclusivos</button>
+    <button class="tab-btn" data-cat="imagem" data-tab="mensal">Mensal (Protech TV)</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <!-- RESUMO -->
+    <div id="imagem-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Só avarias, 1 ano</span><span class="decision-a">→ Mega Garantia +1 Ano (DPV)</span></div>
+        <div class="decision-row"><span class="decision-q">Só avarias, 3 anos</span><span class="decision-a">→ Mega Garantia +3 Anos (DA6)</span></div>
+        <div class="decision-row"><span class="decision-q">Avarias + Dano Acidental</span><span class="decision-a">→ Proteção Avançada TV (DPT)</span></div>
+        <div class="decision-row"><span class="decision-q">Tudo incluído</span><span class="decision-a">→ Proteção Total 3 Anos (DP4) ⚠️ co-pag. roubo</span></div>
+        <div class="decision-row"><span class="decision-q">Pagamento mensal</span><span class="decision-a">→ Protech TV (DDV)</span></div>
+      </div>
+
+      <div class="eyebrow">Todos os produtos disponíveis</div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Ref.</th>
+              <th>Tipo</th>
+              <th>Preço</th>
+              <th>Cobre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mega Garantia +1 Ano</td>
+              <td><span class="ref-code">DPV</span></td>
+              <td><span class="tipo-unico">Prémio único</span></td>
+              <td>Avarias (incl. desgaste)</td>
+            </tr>
+            <tr>
+              <td>Mega Garantia +3 Anos</td>
+              <td><span class="ref-code">DA6</span></td>
+              <td><span class="tipo-unico">Prémio único</span></td>
+              <td>Avarias (incl. desgaste)</td>
+            </tr>
+            <tr>
+              <td>Proteção Avançada TV</td>
+              <td><span class="ref-code">DPT</span></td>
+              <td><span class="tipo-unico">Prémio único</span></td>
+              <td>Avarias + Dano Acidental · 4 anos</td>
+            </tr>
+            <tr>
+              <td>Proteção Total 3 Anos ⚠️</td>
+              <td><span class="ref-code">DP4</span></td>
+              <td><span class="tipo-unico">Prémio único</span></td>
+              <td>Avarias + Dano Acidental + Roubo/Furto</td>
+            </tr>
+            <tr>
+              <td>Protech TV</td>
+              <td><span class="ref-code">DDV</span></td>
+              <td><span class="tipo-mensal">Mensal</span></td>
+              <td>Avarias + Dano Acidental + Furto Qualificado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">⚠️ <strong>Proteção Total (DP4):</strong> em caso de roubo/furto aplica-se um co-pagamento de 15% do valor de compra. Explicar sempre este co-pagamento antes de vender.</div>
+    </div>
+
+    <!-- AVARIAS -->
+    <div id="imagem-avarias" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="card-head">
+            <div class="card-ref">Ref. DPV · Prémio único · Produtos novos</div>
+            <div class="card-name">Mega Garantia +1 Ano</div>
+            <div class="card-desc">Avarias mecânicas e elétricas · 12 meses após garantia do fabricante</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas<span class="cov-note">Inclui falhas por uso e desgaste gradual</span></div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra e transporte</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Cobertura mundial · reparação em Portugal</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo · furto</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Sobrecarga elétrica (exclusão explícita)</div></div>
+          <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos após ocorrência</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="card-head">
+            <div class="card-ref">Ref. DA6 · Prémio único · Produtos novos</div>
+            <div class="card-name">Mega Garantia +3 Anos</div>
+            <div class="card-desc">Avarias mecânicas e elétricas · 36 meses após garantia do fabricante</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. uso e desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra e transporte</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Cobertura mundial · reparação em Portugal</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo · furto</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Burn-in OLED não excluído (vantagem vs concorrência)</div></div>
+          <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+        </div>
+      </div>
+      <div class="note-box info">💡 <strong>Vantagem RP vs concorrência:</strong> A nossa definição de "Avaria" inclui explicitamente o desgaste gradual. A concorrência exige evento súbito, excluindo falhas progressivas.</div>
+    </div>
+
+    <!-- EXCLUSIVOS -->
+    <div id="imagem-exclusivos" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="card-head accent">
+            <div class="card-ref">Ref. DPT · Prémio único · Produtos novos · Exclusivo RP</div>
+            <div class="card-name">Proteção Avançada TV</div>
+            <div class="card-desc">Avarias + Dano Acidental · 4 anos totais de proteção</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. uso e desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (quedas, impactos, causas externas)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra, transporte e deslocação de técnicos</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo · furto · perda</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Danos por líquidos e humidade</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Sobrecarga elétrica</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="card-head accent">
+            <div class="card-ref">Ref. DP4 · Prémio único · Produtos novos · Exclusivo RP</div>
+            <div class="card-name">Proteção Total 3 Anos ⚠️</div>
+            <div class="card-desc">Avarias + Dano Acidental + Roubo/Furto · 3 anos</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias por uso e desgaste</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo com violência + Furto qualificado</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row highlight"><span class="cov-icon warn">⚠️</span><div><span class="warn">Co-pagamento de 15% em roubo/furto</span><span class="cov-note">15% do valor de compra — explicar sempre antes de vender</span></div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Sobrecarga elétrica (exclusão explícita)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENSAL -->
+    <div id="imagem-mensal" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Ref. DDV · Subscrição mensal · D&amp;G · Renovação anual automática</div>
+          <div class="card-name">Protech TV</div>
+          <div class="card-desc">Avarias + Dano Acidental + Furto Qualificado</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. uso e desgaste)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos e humidade)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Furto qualificado (arrombamento / arma aparente)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição automática</strong> após 3 avarias iguais em 12 meses</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🚚</span><div>Reinstalação incluída em caso de mudança de casa</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo com violência (apenas furto qualificado coberto)</div></div>
+        <div class="section-label">Pagamento</div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração paga na loja · restantes por débito direto em conta ou cartão</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+      </div>
+      <div class="note-box info">💡 <strong>Argumento de venda:</strong> O Protech TV é o único produto que combina avarias + dano acidental numa subscrição mensal para Imagem e Som. O cliente paga só se quiser continuar.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     GAMA BRANCA
+══════════════════════════════════════════════ -->
+<div id="cat-gama-branca" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>🧊 Gama Branca</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="gama-branca" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="gama-branca" data-tab="avarias">Avarias (+1/+3 Anos)</button>
+    <button class="tab-btn" data-cat="gama-branca" data-tab="garanvip">⭐ Garanvip (DDR)</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="gama-branca-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Só avarias, 1 ano</span><span class="decision-a">→ Mega Garantia +1 Ano (DPV)</span></div>
+        <div class="decision-row"><span class="decision-q">Só avarias, 3 anos</span><span class="decision-a">→ Mega Garantia +3 Anos (DA6)</span></div>
+        <div class="decision-row"><span class="decision-q">Avarias + Dano + Benefícios</span><span class="decision-a">→ Garanvip (DDR)</span></div>
+      </div>
+      <div class="eyebrow">Todos os produtos disponíveis</div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Ref.</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">💡 <strong>Garanvip (DDR)</strong> é o produto estrela da Gama Branca — o único que inclui dano acidental e benefícios exclusivos como perda de alimentos e lavandaria. Sem equivalente na concorrência.</div>
+    </div>
+
+    <div id="gama-branca-avarias" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="card-head">
+            <div class="card-ref">Ref. DPV · Prémio único</div>
+            <div class="card-name">Mega Garantia +1 Ano</div>
+            <div class="card-desc">Avarias · 12 meses após garantia do fabricante</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. uso e desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra e transporte</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo · furto</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Compensação por demora (apenas no +3 Anos)</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="card-head">
+            <div class="card-ref">Ref. DA6 · Prémio único</div>
+            <div class="card-name">Mega Garantia +3 Anos</div>
+            <div class="card-desc">Avarias · 36 meses após garantia do fabricante</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. uso e desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">⏱️</span><div><strong>€100 de compensação</strong> se reparação demorar mais de 15 dias úteis</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo · furto</div></div>
+          <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+        </div>
+      </div>
+      <div class="note-box info">💡 <strong>Vantagem RP:</strong> A concorrência exclui toda a oxidação e corrosão (acidental ou não) — crítico para máquinas de lavar, lava-louça e frigoríficos. A RP não tem esta exclusão.</div>
+    </div>
+
+    <div id="gama-branca-garanvip" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head accent">
+          <div class="card-ref">Ref. DDR · Subscrição mensal · Exclusivo Rádio Popular</div>
+          <div class="card-name">Garanvip — Mega Garantia Subscrição</div>
+          <div class="card-desc">Avarias + Dano Acidental + Benefícios exclusivos Gama Branca</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. uso e desgaste) — após garantia do fabricante<span class="cov-note">Durante a garantia do fabricante: apenas dano acidental e furto qualificado</span></div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div><strong>Dano acidental</strong> incluído (ausente no DA6 e DPV)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="section-label">Benefícios exclusivos Gama Branca</div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição automática</strong> após 3 avarias iguais em 12 meses</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🥶</span><div>Perda de alimentos refrigerados/congelados: até <strong>€100 por avaria</strong></div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🍽️</span><div>Comida ao domicílio/restaurante: até <strong>€100 por avaria</strong><span class="cov-note">Aplica a frigoríficos, congeladores, fogões e lava-louça</span></div></div>
+        <div class="cov-row highlight"><span class="cov-icon">👕</span><div>Lavandaria: até <strong>€100 por avaria</strong><span class="cov-note">Aplica a máquinas de lavar e secar roupa</span></div></div>
+        <div class="cov-row highlight"><span class="cov-icon">⏱️</span><div><strong>€100 de compensação</strong> se reparação demorar mais de <strong>10 dias úteis</strong></div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🚚</span><div>Reinstalação do equipamento em caso de mudança de casa</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo · furto · perda · dano estético</div></div>
+        <div class="section-label">Pagamento</div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes por débito direto em conta ou cartão · renovação anual</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PEQUENOS DOMÉSTICOS
+══════════════════════════════════════════════ -->
+<div id="cat-pequenos" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>🏠 Pequenos Domésticos</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="pequenos" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="pequenos" data-tab="avarias">Avarias (+1/+3 Anos)</button>
+    <button class="tab-btn" data-cat="pequenos" data-tab="dano">Dano Acidental (PA1)</button>
+    <button class="tab-btn" data-cat="pequenos" data-tab="excl">⭐ Exclusivos RP</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="pequenos-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Só avarias, 1 ano</span><span class="decision-a">→ Mega Garantia +1 Ano (DPV)</span></div>
+        <div class="decision-row"><span class="decision-q">Só avarias, 3 anos</span><span class="decision-a">→ Mega Garantia +3 Anos (DA6)</span></div>
+        <div class="decision-row"><span class="decision-q">Só dano acidental</span><span class="decision-a">→ Proteção Dano Acidental (PA1)</span></div>
+        <div class="decision-row"><span class="decision-q">Avaria → substituição direta</span><span class="decision-a">→ Proteção Direta Substituição (DPS)</span></div>
+        <div class="decision-row"><span class="decision-q">Avarias + Dano + Benefícios</span><span class="decision-a">→ Garanvip (DDR)</span></div>
+      </div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Ref.</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="pequenos-avarias" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem · peças · mão-de-obra</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo</div></div>
+          <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem · peças · mão-de-obra</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo</div></div>
+          <div class="cov-row"><span class="cov-icon">⚠️</span><div>Compensação 100€ por demora NÃO aplica a Peq. Domésticos</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pequenos-dano" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Ref. PA1 · Prémio único · D&amp;G</div>
+          <div class="card-name">Proteção Dano Acidental</div>
+          <div class="card-desc">Dano acidental e líquidos → substituição direta do equipamento</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (quedas, impactos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Derrame de líquidos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Resultado: substituição direta</strong> do produto (não repara)</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias mecânicas · roubo · furto · sobrecarga elétrica</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+      </div>
+      <div class="note-box info">💡 A PA1 tem coberturas idênticas ao produto equivalente da concorrência, com melhor preço.</div>
+    </div>
+
+    <div id="pequenos-excl" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="card-head accent">
+            <div class="card-ref">Ref. DPS · Prémio único · Exclusivo RP</div>
+            <div class="card-name">Proteção Direta Substituição</div>
+            <div class="card-desc">Avaria → substituição direta (sem tentativa de reparação)</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição direta</strong> — nunca repara, sempre substitui</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo · sobrecarga elétrica</div></div>
+          <div class="cov-row"><span class="cov-icon">💡</span><div>Sem equivalente na concorrência</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="card-head accent">
+            <div class="card-ref">Ref. DDR · Mensal · Exclusivo RP</div>
+            <div class="card-name">Garanvip</div>
+            <div class="card-desc">Avarias + Dano Acidental + benefícios especiais</div>
+          </div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias (incl. desgaste) — após fim da garantia do fabricante</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental incluído</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">🔄</span><div>Substituição após 3 avarias iguais em 12 meses</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">⏱️</span><div>€100 se reparação &gt; 10 dias úteis</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">🍽️</span><div>Comida ao domicílio: até €100 (equip. de cozinha)</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">🚚</span><div>Reinstalação em caso de mudança</div></div>
+          <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes débito direto · renovação anual</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     INFORMÁTICA
+══════════════════════════════════════════════ -->
+<div id="cat-informatica" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>💻 Informática</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="informatica" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="informatica" data-tab="avarias">Avarias (+1/+3 Anos)</button>
+    <button class="tab-btn" data-cat="informatica" data-tab="protech">Protech Mensal</button>
+    <button class="tab-btn" data-cat="informatica" data-tab="pro">Informática PRO</button>
+    <button class="tab-btn" data-cat="informatica" data-tab="total">Proteção Total 3A</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="informatica-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Só avarias, 1 ano</span><span class="decision-a">→ Mega Garantia +1 Ano (DPV)</span></div>
+        <div class="decision-row"><span class="decision-q">Só avarias, 3 anos</span><span class="decision-a">→ Mega Garantia +3 Anos (DA6) — cobertura mais abrangente</span></div>
+        <div class="decision-row"><span class="decision-q">Avarias + Dano + Furto</span><span class="decision-a">→ Protech (DDL)</span></div>
+        <div class="decision-row"><span class="decision-q">Cobertura total + digital</span><span class="decision-a">→ Informática Pro (D61)</span></div>
+        <div class="decision-row"><span class="decision-q">Tudo único, 3 anos</span><span class="decision-a">→ Proteção Total 3A (DP4) ⚠️ co-pag.</span></div>
+      </div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Ref.</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box alert">⚠️ DA6 (+3 Anos) é o produto com custo mais elevado nesta família mas oferece a definição de avaria mais abrangente. O cliente que priorize o custo pode avaliar a subscrição Protech mensal.</div>
+    </div>
+
+    <div id="informatica-avarias" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem (incl. carregador e rato)</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · burn-in de ecrã · roubo</div></div>
+          <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · roubo · burn-in</div></div>
+          <div class="cov-row"><span class="cov-icon">ℹ️</span><div>Compensação 100€/&gt;15 dias NÃO aplica a Informática</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="informatica-protech" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Ref. DDL · Mensal · Exclusivo RP</div>
+          <div class="card-name">Protech — Informática</div>
+          <div class="card-desc">Avarias + Dano Acidental + Furto Qualificado</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste) — após garantia do fabricante<span class="cov-note">Durante a garantia do fabricante: apenas dano acidental e furto qualificado</span></div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Furto qualificado (arrombamento / arma aparente)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição automática</strong> após 3 avarias iguais em 12 meses</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo com violência · uso profissional</div></div>
+        <div class="section-label">Pagamento</div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes débito direto em conta ou cartão · renovação anual</div></div>
+      </div>
+    </div>
+
+    <div id="informatica-pro" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head accent">
+          <div class="card-ref">Ref. D61 · Mensal · Exclusivo RP · Produto topo de gama</div>
+          <div class="card-name">Mega Garantia — Informática PRO</div>
+          <div class="card-desc">Cobertura completa + serviços digitais + equipamento substituto</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste) — após garantia do fabricante</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div><strong>Roubo com violência</strong> + Furto Qualificado</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">💻</span><div><strong>Equipamento substituto temporário</strong> durante a reparação</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">✅</span><div><strong>Uso profissional permitido</strong> — único produto que cobre uso laboral</div></div>
+        <div class="section-label">Serviços de Proteção Digital (Project Box)</div>
+        <div class="cov-row highlight"><span class="cov-icon">🛡️</span><div>Antivírus · anti-phishing · navegação segura</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">📷</span><div>Proteção webcam e microfone · alerta de acesso não autorizado</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🧹</span><div>Limpeza de espaço e linha de suporte prioritário</div></div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes débito direto · renovação anual automática</div></div>
+      </div>
+    </div>
+
+    <div id="informatica-total" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head accent">
+          <div class="card-ref">Ref. DP4 · Prémio único · Exclusivo RP</div>
+          <div class="card-name">Proteção Total 3 Anos ⚠️</div>
+          <div class="card-desc">Avarias desgaste + Dano Acidental + Roubo/Furto · 3 anos</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias por uso e desgaste — peças, mão-de-obra, transporte</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo e Furto Qualificado</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon warn">⚠️</span><div><span class="warn">Co-pagamento de 15% do valor de compra em Roubo/Furto</span><span class="cov-note">15% do valor de compra — explicar sempre antes de vender</span></div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias não relacionadas com desgaste — seguradora NÃO paga mão-de-obra</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Apenas produtos novos · duração 36 meses · não renovável · prazo part. 14 dias</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SMARTPHONES
+══════════════════════════════════════════════ -->
+<div id="cat-smartphones" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>📱 Smartphones</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="smartphones" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="smartphones" data-tab="mensal-basico">Mensal Básico</button>
+    <button class="tab-btn" data-cat="smartphones" data-tab="mensal-premium">Mensal Premium</button>
+    <button class="tab-btn" data-cat="smartphones" data-tab="dacc">Dano Acidental 1 Ano</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="smartphones-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Proteção mensal base</span><span class="decision-a">→ Mensal RP (repara + substitui)</span></div>
+        <div class="decision-row"><span class="decision-q">Substituição direta + digital</span><span class="decision-a">→ Premium (substitui sempre)</span></div>
+        <div class="decision-row"><span class="decision-q">Prémio único, 1 ano</span><span class="decision-a">→ Smartphone Plus (PS5)</span></div>
+      </div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Tipo</th><th>Preço</th><th>Co-pagamento sinistro</th><th>Resultado</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">ℹ️ Todos os produtos Smartphones cobrem: dano acidental + roubo + furto qualificado + serviços digitais. A diferença está no preço, co-pagamento e forma de resolução.</div>
+    </div>
+
+    <div id="smartphones-mensal-basico" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Subscrição mensal · D&amp;G · Exclusivo RP</div>
+          <div class="card-name">Mensal RP</div>
+          <div class="card-desc">Dano Acidental + Roubo + Furto Qualificado + Serviços Digitais</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo com violência e Furto Qualificado</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔧</span><div><strong>Repara primeiro</strong> — substitui apenas se não for possível reparar</div></div>
+        <div class="section-label">Serviços de Proteção Digital</div>
+        <div class="cov-row highlight"><span class="cov-icon">🛡️</span><div>Antivírus · anti-phishing · navegação segura · stalkware · webcam/mic · limpeza · suporte prioritário</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias mecânicas/elétricas · perda · dano estético · uso profissional</div></div>
+        <div class="section-label">Co-pagamento</div>
+        <div class="cov-row"><span class="cov-icon warn">⚠️</span><div>10% do valor de compra · máximo <strong>€100</strong></div></div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>Mensal · débito direto em conta ou cartão · renovação anual · 1.ª fração na loja</div></div>
+      </div>
+    </div>
+
+    <div id="smartphones-mensal-premium" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head accent">
+          <div class="card-ref">Subscrição mensal · D&amp;G · Produto topo de gama</div>
+          <div class="card-name">Premium</div>
+          <div class="card-desc">Substituição direta + Dano Acidental + Roubo + Furto + Serviços Digitais</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo com violência e Furto Qualificado</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição direta sempre</strong> — nunca repara, substitui logo</div></div>
+        <div class="section-label">Serviços de Proteção Digital</div>
+        <div class="cov-row highlight"><span class="cov-icon">🛡️</span><div>Antivírus · anti-phishing · navegação segura · stalkware · webcam/mic · limpeza · suporte prioritário</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias mecânicas/elétricas · perda · dano estético · uso profissional</div></div>
+        <div class="section-label">Co-pagamento</div>
+        <div class="cov-row"><span class="cov-icon warn">⚠️</span><div>15% do valor de compra · máximo <strong>€150</strong></div></div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>Mensal · débito direto em conta ou cartão · renovação anual · 1.ª fração na loja</div></div>
+      </div>
+      <div class="note-box">💡 Premium vs Básico: Premium substitui sempre (sem tentativa de reparação), Básico repara primeiro. O co-pagamento do Premium é maior (15% vs 10%). Recomendar Premium a clientes que não querem esperar pela reparação.</div>
+    </div>
+
+    <div id="smartphones-dacc" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Ref. PS5 · Prémio único · Apenas produtos novos</div>
+          <div class="card-name">Mega Garantia Smartphone Plus</div>
+          <div class="card-desc">Dano Acidental + Roubo + Furto Qualificado · 1 sinistro por ano</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo com violência e Furto Qualificado</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra, transporte incluídos</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias mecânicas/elétricas · perda · dano estético</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Apenas equipamentos novos (usados excluídos)</div></div>
+        <div class="section-label">Co-pagamento e limites</div>
+        <div class="cov-row"><span class="cov-icon warn">⚠️</span><div>10% do valor de compra · máximo <strong>€100</strong></div></div>
+        <div class="cov-row"><span class="cov-icon warn">⚠️</span><div>Máximo 1 sinistro em 12 meses · apólice cancelada após substituição</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos · cobertura mundial</div></div>
+      </div>
+      <div class="note-box alert">⚠️ Atenção: a Worten tem co-pagamento máximo de €60 vs €100 da RP neste produto. Se o cliente valorizar a franquia mais baixa, informar honestamente.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FOTOGRAFIA
+══════════════════════════════════════════════ -->
+<div id="cat-fotografia" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>📷 Fotografia</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="fotografia" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="fotografia" data-tab="produtos">Todos os Produtos</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="fotografia-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Só avarias, 1 ano</span><span class="decision-a">→ Mais 1 Ano (DPV)</span></div>
+        <div class="decision-row"><span class="decision-q">Tudo incluído, 3 anos</span><span class="decision-a">→ Proteção Total 3A (DP4) ⚠️ co-pag.</span></div>
+        <div class="decision-row"><span class="decision-q">Pagamento mensal</span><span class="decision-a">→ Protech Mensal</span></div>
+      </div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box info">💡 <strong>Atenção:</strong> O Protech Mensal cobre avarias mas NÃO cobre roubo. Se o cliente se preocupa com roubo, recomendar a Proteção Total 3 Anos (DP4).</div>
+    </div>
+
+    <div id="fotografia-produtos" class="tab-panel">
+      <div class="cards-grid">
+        <div class="prod-card">
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste)</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra, transporte</div></div>
+          <div class="cov-row highlight"><span class="cov-icon">📅</span><div>Cobertura inicia após o fim da garantia do fabricante</div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano acidental · líquidos · roubo · furto</div></div>
+        </div>
+        <div class="prod-card">
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias por uso e desgaste</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental incluído</div></div>
+          <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo com violência e Furto Qualificado</div></div>
+          <div class="cov-row highlight"><span class="cov-icon warn">⚠️</span><div><span class="warn">Co-pagamento 15% em roubo/furto</span><span class="cov-note">15% do valor de compra — explicar sempre antes de vender</span></div></div>
+          <div class="cov-row"><span class="cov-icon minus">❌</span><div>Perda do equipamento · dano estético</div></div>
+        </div>
+      </div>
+      <div class="prod-card full-width" style="margin-top:0">
+        <div class="card-head">
+          <div class="card-ref">Mensal · D&amp;G · Renovação anual</div>
+          <div class="card-name">Protech Mensal — Fotografia</div>
+          <div class="card-desc">Avarias + Dano Acidental + Furto Qualificado</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste) — após garantia do fabricante</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Furto Qualificado (arrombamento / arma aparente)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div>Substituição automática após 3 avarias iguais em 12 meses</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo com violência · perda · uso profissional</div></div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes débito direto · renovação anual</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CONSOLAS
+══════════════════════════════════════════════ -->
+<div id="cat-consolas" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>🎮 Consolas</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="consolas" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="consolas" data-tab="protech">Protech Mensal</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="consolas-resumo" class="tab-panel active">
+      <div class="note-box info">ℹ️ Para Consolas existe apenas um produto RP: o <strong>Protech Mensal (DDL)</strong>. Não há produto de prémio único para esta família.</div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Ref.</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="consolas-protech" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Ref. DDL · Mensal · D&amp;G · Renovação anual</div>
+          <div class="card-name">Protech — Consolas</div>
+          <div class="card-desc">Avarias + Dano Acidental + Furto Qualificado</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos) — desde o início da subscrição</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Furto Qualificado — desde o início da subscrição</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste) — após fim da garantia do fabricante<span class="cov-note">Durante a garantia do fabricante: apenas dano acidental e furto qualificado</span></div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Acessórios de origem incluídos</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição automática</strong> após 3 avarias iguais em 12 meses</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo com violência · perda · uso profissional</div></div>
+        <div class="section-label">Pagamento</div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes débito direto em conta ou cartão · renovação anual</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+      </div>
+      <div class="note-box info">💡 A concorrência tem produtos de prémio único para consolas (dano + roubo), mas não cobre avarias. O Protech RP é o único produto que cobre avarias + dano no mesmo produto para esta família.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SMARTWATCH
+══════════════════════════════════════════════ -->
+<div id="cat-smartwatch" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>⌚ Smartwatch</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="smartwatch" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="smartwatch" data-tab="protech">Protech Mensal</button>
+    <button class="tab-btn" data-cat="smartwatch" data-tab="dano">Dano Acidental 1A</button>
+    <button class="tab-btn" data-cat="smartwatch" data-tab="ecra">⭐ Quebra de Ecrã</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="smartwatch-resumo" class="tab-panel active">
+      <div class="decision-box">
+        <h4>Qual produto oferecer?</h4>
+        <div class="decision-row"><span class="decision-q">Pagamento mensal</span><span class="decision-a">→ ProTech Subscrição</span></div>
+        <div class="decision-row"><span class="decision-q">Dano acidental, 1 ano</span><span class="decision-a">→ Dano Acidental 1 Ano</span></div>
+        <div class="decision-row"><span class="decision-q">Só proteger o ecrã</span><span class="decision-a">→ Quebra de Ecrã +1 Ano (opção mais económica)</span></div>
+      </div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">💡 <strong>Quebra de Ecrã</strong> é um produto exclusivo RP — ideal para clientes que se preocupam principalmente com o ecrã e procuram a opção mais económica.</div>
+    </div>
+
+    <div id="smartwatch-protech" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Mensal · D&amp;G · Renovação anual</div>
+          <div class="card-name">ProTech Subscrição — Smartwatch</div>
+          <div class="card-desc">Avarias + Dano Acidental + Furto Qualificado</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos) — desde o início</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Furto Qualificado — desde o início</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Avarias mecânicas e elétricas (incl. desgaste) — após fim da garantia do fabricante</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div>Substituição automática após 3 avarias iguais em 12 meses</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Roubo com violência · perda</div></div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · débito direto · renovação anual</div></div>
+      </div>
+    </div>
+
+    <div id="smartwatch-dano" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head">
+          <div class="card-ref">Prémio único · 12 meses</div>
+          <div class="card-name">Dano Acidental +1 Ano — Smartwatch</div>
+          <div class="card-desc">Cobertura de dano acidental por quedas e impactos</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (quedas, impactos, quebra de ecrã)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra, transporte</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias mecânicas · roubo · furto</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Preços variam por escalão — consultar tabela no sistema</div></div>
+      </div>
+    </div>
+
+    <div id="smartwatch-ecra" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head accent">
+          <div class="card-ref">Prémio único · Exclusivo Rádio Popular</div>
+          <div class="card-name">Quebra de Ecrã +1 Ano</div>
+          <div class="card-desc">Cobertura específica para quebra/fissura do ecrã — opção mais económica</div>
+        </div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div><strong>Quebra e fissura do ecrã</strong> (quedas e impactos diretos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra, transporte</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Outros danos acidentais (líquidos, danos no corpo, etc.)</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Avarias mecânicas · roubo · furto</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">💡</span><div>Opção mais económica se o risco principal for a quebra do ecrã · sem equivalente na concorrência</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TROTINETES
+══════════════════════════════════════════════ -->
+<div id="cat-trotineta" class="cat-panel">
+  <div class="page-title">
+    <div class="meta">Família</div>
+    <h2>🛴 Trotinetes Elétricas</h2>
+  </div>
+
+  <div class="tab-btn-row">
+    <button class="tab-btn active" data-cat="trotineta" data-tab="resumo">Resumo Rápido</button>
+    <button class="tab-btn" data-cat="trotineta" data-tab="protech">ProTech Mobilidade</button>
+  </div>
+
+  <div class="tab-panels">
+
+    <div id="trotineta-resumo" class="tab-panel active">
+      <div class="note-box info">ℹ️ Para Trotinetes existe apenas um produto RP: o <strong>ProTech Mobilidade Eléctrica (DBM)</strong>. Grande vantagem face à concorrência: cobre avarias DESDE O INÍCIO (sem esperar pelo fim da garantia do fabricante).</div>
+      <div class="qref-wrap">
+        <table class="qref-table">
+          <thead><tr><th>Produto</th><th>Ref.</th><th>Tipo</th><th>Preço</th><th>Cobre</th></tr></thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box alert">⚠️ <strong>Atenção:</strong> Baterias, rodas, correntes e pneus são acessórios/consumíveis e estão excluídos em ambas as insígnias. Informar o cliente antes de vender.</div>
+    </div>
+
+    <div id="trotineta-protech" class="tab-panel">
+      <div class="prod-card full-width">
+        <div class="card-head accent">
+          <div class="card-ref">Ref. DBM · Mensal · D&amp;G · Exclusivo RP nesta configuração</div>
+          <div class="card-name">ProTech Mobilidade Eléctrica</div>
+          <div class="card-desc">Avarias (desde o início) + Dano Acidental + Roubo + Furto Qualificado</div>
+        </div>
+        <div class="cov-row highlight"><span class="cov-icon plus">✅</span><div><strong>Avarias mecânicas e elétricas (incl. desgaste) DESDE O INÍCIO</strong><span class="cov-note">Não é necessário esperar pelo fim da garantia do fabricante — diferença crítica vs concorrência</span></div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Dano acidental (incl. líquidos)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Roubo com violência</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Furto Qualificado (arrombamento / arma aparente)</div></div>
+        <div class="cov-row"><span class="cov-icon plus">✅</span><div>Peças, mão-de-obra, transporte</div></div>
+        <div class="cov-row highlight"><span class="cov-icon">🔄</span><div><strong>Substituição automática</strong> após 3 avarias iguais em 12 meses</div></div>
+        <div class="section-label excl">Excluído (atenção ao informar o cliente)</div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div><strong>Baterias, rodas, correntes, pneus</strong> — acessórios e consumíveis excluídos</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Danos de competição ou infração rodoviária</div></div>
+        <div class="cov-row"><span class="cov-icon minus">❌</span><div>Dano estético · uso profissional · perda do equipamento</div></div>
+        <div class="section-label">Pagamento</div>
+        <div class="cov-row"><span class="cov-icon">💳</span><div>1.ª fração na loja · restantes débito direto em conta · renovação anual</div></div>
+        <div class="cov-row"><span class="cov-icon">⚠️</span><div>Prazo participação: 14 dias corridos · cobertura mundial</div></div>
+      </div>
+      <div class="note-box info">💡 <strong>Argumento principal:</strong> A concorrência <strong>não cobre avarias</strong> para trotinetes. A RP é a única opção com cobertura de avarias + dano + roubo numa subscrição mensal para esta família.</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var navBtns = document.querySelectorAll('.nav-btn[data-cat]');
+for (var i = 0; i < navBtns.length; i++) {
+  navBtns[i].addEventListener('click', function() {
+    var id = this.getAttribute('data-cat');
+    var panels = document.querySelectorAll('.cat-panel');
+    for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active');
+    for (var j = 0; j < navBtns.length; j++) navBtns[j].classList.remove('active');
+    var p = document.getElementById('cat-' + id);
+    if (p) p.classList.add('active');
+    this.classList.add('active');
+    window.scrollTo(0, 0);
+  });
+}
+
+var prefixMap = {
+  'imagem': 'imagem',
+  'gama-branca': 'gama-branca',
+  'pequenos': 'pequenos',
+  'informatica': 'informatica',
+  'smartphones': 'smartphones',
+  'fotografia': 'fotografia',
+  'consolas': 'consolas',
+  'smartwatch': 'smartwatch',
+  'trotineta': 'trotineta'
+};
+
+var tabBtns = document.querySelectorAll('.tab-btn');
+for (var i = 0; i < tabBtns.length; i++) {
+  tabBtns[i].addEventListener('click', function() {
+    var cat = this.getAttribute('data-cat');
+    var tab = this.getAttribute('data-tab');
+    if (!cat || !tab) return;
+    var btns = document.querySelectorAll('.tab-btn[data-cat="' + cat + '"]');
+    for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+    this.classList.add('active');
+    var catEl = document.getElementById('cat-' + cat);
+    if (!catEl) return;
+    var pnls = catEl.querySelectorAll('.tab-panel');
+    for (var j = 0; j < pnls.length; j++) pnls[j].classList.remove('active');
+    var prefix = prefixMap[cat] || cat;
+    var p = document.getElementById(prefix + '-' + tab);
+    if (p) p.classList.add('active');
+    window.scrollTo(0, 48);
+  });
+}
+</script>
+</body>
+</html>
